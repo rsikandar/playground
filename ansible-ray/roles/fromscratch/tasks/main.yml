@@ -1,0 +1,5 @@
+---
+  
+  - include: 00-security.yml
+  - include: 01-sshkey.yml
+  - include: 02-createinstance.yml

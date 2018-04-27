@@ -1,0 +1,14 @@
+---
+
+  - name: install wordpress
+    gather_facts: yes
+    hosts: tag_env_wordpress
+    sudo: yes
+    remote_user: ubuntu
+    roles:
+        - ../roles/apache
+        - ../roles/php
+        - ../roles/mysql
+        - ../roles/wordpress
+  
+  

@@ -1,0 +1,17 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: es
+spec:
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        name: es
+        app: foodtrucks
+    spec:
+      containers:
+      - name: es
+        image: elasticsearch:latest
+        ports:
+        - containerPort: 9200

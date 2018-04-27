@@ -1,0 +1,57 @@
+#!/bin/bash -e
+
+# This script finds IAM users who have MFA and Passwords.
+# Adds to Office IP only group.
+
+# Which AWS account
+PS3='Please enter your choice: '
+options=("LVL AWS Account" "LVP AWS Account" "NMLV AWS Account" "Quit")
+select opt in "${options[@]}"
+do
+    case $opt in
+        "LVL AWS Account")
+            echo "You chose Leavest Legacy"
+            account=lvl
+            ;;
+        "LVP AWS Account")
+            echo "You chose LVP"
+            account=lvp
+            ;;
+        "NMLV AWS Account")
+            echo "you chose NMLV AWS account"
+            account=nmlv
+            ;;
+        "Quit")
+            break
+            ;;
+        *) echo invalid option;;
+    esac
+done
+echo " "
+echo " "
+echo " "
+echo " "
+echo "You have 10 seconds to cancel, press CTRL+C to cancel now!"
+echo " "
+echo " "
+sleep 10
+
+
+# Generate a report
+AWS_PROFILE=$account aws iam generate-credential-report > /dev/null
+
+# Download report.
+REPORT=$(AWS_PROFILE=$account aws iam get-credential-report)
+
+# Parse the good stuff from the JSON
+DATA=$(echo ${REPORT}|jq ".Content" -r)
+
+# User with MFA and Password get added to a list
+MFAUSERS=$(echo ${DATA} | base64 --decode | cut -d, -f1,4,8 | grep "true,true$" | cut -d, -f1)
+
+# Attach Blocking Policy to users with MFA/Password.
+for i in $MFAUSERS
+do 
+AWS_PROFILE=$account aws iam add-user-to-group --username $i --group-name NMLViP
+done
+

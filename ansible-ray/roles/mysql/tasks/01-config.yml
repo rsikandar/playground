@@ -1,0 +1,4 @@
+---
+  
+  - name: generate mysql structure
+    command: mysql_install_db

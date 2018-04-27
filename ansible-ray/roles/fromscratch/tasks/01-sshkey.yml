@@ -1,0 +1,14 @@
+---
+  
+  - name: Create an EC2 key
+    ec2_key:
+      name: "{{ project_name }}-{{ env }}-key"
+      region: "{{ aws_region }}"
+    register: ec2_key
+  
+  - name: save private key locally
+    copy: 
+      content: "{{ ec2_key.key.private_key }}" 
+      dest: "~/.ssh/aws-{{ env }}-private.pem" 
+      mode: 0600
+    when: ec2_key.changed

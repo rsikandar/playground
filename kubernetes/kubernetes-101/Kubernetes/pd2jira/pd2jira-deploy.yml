@@ -1,0 +1,17 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: pd2jira
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        name: pd2jira
+        app: pd2jira
+    spec:
+      containers:
+      - name: pd2jira
+        image: rayrayray1231/pd2jira
+        ports:
+        - containerPort: 8080

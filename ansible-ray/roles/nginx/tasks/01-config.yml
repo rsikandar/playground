@@ -1,0 +1,26 @@
+---
+
+  - name: delete default
+    file: 
+      path: /etc/nginx/sites-available/default 
+      state: absent
+    register: NGINX_CONF_DELETED
+
+
+  - name: replace /etc/nginx/sites-available/default
+    template: 
+      src: nginx-conf.j2 
+      dest: /etc/nginx/sites-available/default
+    when: NGINX_CONF_DELETED
+    register: NGINX_CONF_REPLACED
+
+  - name: Ensure Proper Permissions on default File
+    file: 
+      path: /etc/nginx/sites-available/default 
+      mode: 0644
+    when: NGINX_CONF_REPLACED    
+
+  - name: Ensure Proper Permissions on php-test File
+    file: 
+      path: /etc/nginx/sites-available/default 
+      mode: 0644

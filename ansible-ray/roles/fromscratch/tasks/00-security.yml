@@ -1,0 +1,14 @@
+---
+
+  - name: Create Security Group
+    ec2_group:
+      name: "{{ project_name }}_security_group"
+      description: "{{ project_name }} security group"
+      region: "{{ aws_region }}"
+      rules:
+        - proto: all
+          cidr_ip: 0.0.0.0/0
+      rules_egress:
+        - proto: all
+          cidr_ip: 0.0.0.0/0
+    register: firewall

@@ -1,0 +1,17 @@
+unset HOME
+export APACHE_RUN_USER=www-data
+export APACHE_RUN_GROUP=www-data
+export APACHE_PID_FILE=/var/run/apache2/apache2.pid
+export APACHE_RUN_DIR=/var/run/apache2
+export APACHE_LOCK_DIR=/var/lock/apache2
+export APACHE_LOG_DIR=/var/log/pd2jira
+export LANG=C
+export LANG
+
+export PAGER2J_JIRA_PASSWORD=T4@tPDth0
+export PAGER2J_JIRA_PROJECT=INFRA
+export PAGER2J_JIRA_USERNAME=pdinfra
+export PAGER2J_PAGERDUTY_API_TOKEN=HPFfNVtsy8vSbtnBVzPu
+export PAGER2J_JIRA_URL=https://learnvest.atlassian.net
+export PAGER2J_PAGERDUTY_SUBDOMAIN=learnvest
+export PAGER2J_JIRA_ISSUE_TYPE=Task

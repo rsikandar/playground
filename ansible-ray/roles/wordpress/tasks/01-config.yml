@@ -1,0 +1,30 @@
+---
+
+  - name: Copy sample config file
+    command: mv /var/www/wordpress/wp-config-sample.php /var/www/wordpress/wp-config.php creates=/var/www/wordpress/wp-config.php
+  
+  - name: Update WordPress config file
+    lineinfile:
+      dest: /var/www/wordpress/wp-config.php
+      regexp: "{{ item.regexp }}"
+      line: "{{ item.line }}"
+    with_items:
+      - {'regexp': "define\\('DB_NAME', '(.)+'\\);", 'line': "define('DB_NAME', '{{wp_mysql_db}}');"}        
+      - {'regexp': "define\\('DB_USER', '(.)+'\\);", 'line': "define('DB_USER', '{{wp_mysql_user}}');"}        
+      - {'regexp': "define\\('DB_PASSWORD', '(.)+'\\);", 'line': "define('DB_PASSWORD', '{{wp_mysql_password}}');"}
+  
+  
+  - name: add wordpress user to mysql
+    mysql_user:
+      login_user: root
+      login_password: "{{ MySQL_root_pass }}"
+      name: wordpress
+      password: password123
+      priv: '*.*:ALL,GRANT'
+  
+  - name: add mysql database
+    mysql_db: 
+      login_user: root
+      login_password: "{{ MySQL_root_pass }}"
+      name: wordpress
+      state: present.  

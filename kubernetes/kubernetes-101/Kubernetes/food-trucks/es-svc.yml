@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: es
+  labels:
+    name: es
+    app: foodtrucks
+spec:
+  ports:
+  - port: 9200
+    protocol: TCP
+  selector:
+    name: es
+    app: foodtrucks
